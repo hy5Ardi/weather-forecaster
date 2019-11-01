@@ -100,6 +100,7 @@
                   this.$store.dispatch('fetchWeather', city);
                   this.addRecent(city);
                   this.$store.dispatch('deleteError', 'empty-input');
+                  this.city = '';
               } else if (!this.getErrors.find(error => error.type === 'empty-input')) {
                   this.$store.commit('ADD_ERROR', {
                       "type": "empty-input",
