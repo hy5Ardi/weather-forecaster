@@ -1,17 +1,15 @@
 <template>
   <div>
-    <div v-if="getErrors.length > 0" class="col-md-12">
-      <div class="alert alert-danger" v-for="error in getErrors">{{ error }}</div>
-    </div>
     <div class="col-md-4">
       <h2>Search for a Location</h2>
       <form class="form-inline">
         <div class="input-group">
-          <input type="text" placeholder="City Name" class="form-control" v-model="city">
+          <input type="text" placeholder="City Name" class="form-control" :class="{'search-danger': getErrors.find(error => error.type === 'empty-input')}" v-model="city">
           <span class="input-group-btn">
             <button type="submit" class="btn btn-primary" @click.prevent="search(city)">Search</button>
           </span>
         </div>
+        <span v-if="getErrors.find(error => error.type === 'empty-input')" class="search-feedback">{{ getErrors.find(error => error.type === 'empty-input').error }}</span>
       </form>
       <div class="recents" v-if="getRecents.length > 0">
         <h2>Recent Searches <span class="badge">{{ getRecents.length }}</span></h2>
@@ -101,8 +99,12 @@
               if (city) {
                   this.$store.dispatch('fetchWeather', city);
                   this.addRecent(city);
-              } else {
-                  this.$store.commit('ADD_ERROR', 'You have to Enter valid City name.');
+                  this.$store.dispatch('deleteError', 'empty-input');
+              } else if (!this.getErrors.find(error => error.type === 'empty-input')) {
+                  this.$store.commit('ADD_ERROR', {
+                      "type": "empty-input",
+                      "error": "You must enter valid Location."
+                  });
               }
           }
       }

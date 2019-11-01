@@ -26,4 +26,14 @@ export default {
 body {
   padding-top: 65px;
 }
+
+.search-danger, .search-danger:focus {
+  border-color: #d9534f;
+}
+
+.search-feedback {
+  color: #d9534f;
+  display: block;
+  margin-top: .25rem;
+}
 </style>

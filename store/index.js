@@ -17,6 +17,9 @@ export const mutations = {
   },
   ADD_ERROR(state, payload) {
     state.errors.push(payload);
+  },
+  REMOVE_ERROR(state, payload) {
+    state.errors.splice(payload, 1);
   }
 };
 
@@ -27,7 +30,10 @@ export const actions = {
       context.commit('SET_LOADING', false);
       context.commit('FETCH_WEATHER', response);
       console.log(response);
-    })
+    });
+  },
+  deleteError(context, error) {
+    context.commit('REMOVE_ERROR', error);
   }
 };
 
